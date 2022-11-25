@@ -9,4 +9,5 @@ public class CharacterStats : ScriptableObject
     public float Speed = 5f;
     public int Damage = 5;
     public float RespawnTimer = 5f;
+    public float SquaredDetectionRange = 100;
 }
