@@ -12,3 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c24645bae0afc4598edc83be552a23, type: 3}
   m_Name: Player Stats
   m_EditorClassIdentifier: 
+  Health: 10
+  Speed: 50
+  Damage: 5
+  RespawnTimer: 5
+  SquaredDetectionRange: 100
