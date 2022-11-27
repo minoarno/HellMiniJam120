@@ -1,10 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Composites;
 using UnityEngine.Serialization;
-using Vector2 = System.Numerics.Vector2;
+using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 public class Player : MonoBehaviour
@@ -40,6 +42,7 @@ public class Player : MonoBehaviour
         _jumpAction = _playerInput.actions["Jump"];
     }
 
+    //https://www.youtube.com/watch?v=f473C43s8nE
     // Update is called once per frame
     void Update()
     {
@@ -49,15 +52,21 @@ public class Player : MonoBehaviour
         {
             _playerVelocity.y = 0;
         }
-        
-        Vector2 moveInput = _moveAction.ReadValue<Vector2>();
-        Vector3 move = new Vector3(moveInput.X, 0, moveInput.Y);
-        _controller.Move(move * (Time.deltaTime * characterStats.Speed));
+
+        var moveInputObject = _moveAction.ReadValueAsObject();
+
+        if (moveInputObject != null)
+        {
+            Vector2 moveInput = (Vector2)moveInputObject;
+            Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
+            _controller.Move(move * (Time.deltaTime * characterStats.Speed));
+        }
+
         if (_jumpAction.triggered && _groundedPlayer)
         {
             _playerVelocity.y += Mathf.Sqrt(jumpForce * -3.0f * gravityValue);
         }
-
+        
         _playerVelocity.y += gravityValue * Time.deltaTime;
         _controller.Move(_playerVelocity * Time.deltaTime);
     }
